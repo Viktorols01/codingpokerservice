@@ -5,10 +5,11 @@ from PokerState import PokerState
 
 app = FastAPI()
 
+# add the address here!
 origins = [
     "http://localhost",
-    "http://localhost:3000",
-    "https://pokercode.io"
+    "http://localhost:8080",
+    "https://codepoker.io"
 ]
 
 app.add_middleware(
