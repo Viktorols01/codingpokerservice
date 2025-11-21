@@ -1,4 +1,4 @@
-# CodePokerService
+# codingpokerservice
 ## About
 This is a simple program designed to showcase interaction with codepoker.io
 
