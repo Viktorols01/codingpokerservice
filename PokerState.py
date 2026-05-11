@@ -17,14 +17,13 @@ class PokerStatePlayer(BaseModel):
     markers: int
     bet: int
     cards: List[PokerStateCard]
-    allIn: bool
     folded: bool
 
 class PokerState(BaseModel):
     highestBet: int
-    you: PokerStatePlayer
     players: List[PokerStatePlayer]
     dealerIndex: int
+    youIndex: int
     communityCards: List[PokerStateCard]
     bigBlind: int
     smallBlind: int
