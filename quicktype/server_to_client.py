@@ -139,30 +139,6 @@ class PlayerMoveDto(BaseModel):
         return result
 
 
-class PlayerResultDto(BaseModel):
-    name: str
-    handDescription: str
-    cards: List[str]
-    markers: int
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'PlayerResultDto':
-        assert isinstance(obj, dict)
-        name = from_str(obj.get("name"))
-        handDescription = from_str(obj.get("handDescription"))
-        cards = from_list(from_str, obj.get("cards"))
-        markers = from_int(obj.get("markers"))
-        return PlayerResultDto(name, handDescription, cards, markers)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["name"] = from_str(self.name)
-        result["handDescription"] = from_str(self.handDescription)
-        result["cards"] = from_list(from_str, self.cards)
-        result["markers"] = from_int(self.markers)
-        return result
-
-
 class Player(BaseModel):
     name: str
     markers: int
@@ -220,6 +196,66 @@ class PokerStateDto(BaseModel):
         result["communityCards"] = from_list(from_str, self.communityCards)
         result["bigBlind"] = from_int(self.bigBlind)
         result["smallBlind"] = from_int(self.smallBlind)
+        return result
+
+
+class PlayerMoveAndPokerStateDto(BaseModel):
+    playerMove: PlayerMoveDto
+    pokerState: PokerStateDto
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'PlayerMoveAndPokerStateDto':
+        assert isinstance(obj, dict)
+        playerMove = PlayerMoveDto.from_dict(obj.get("playerMove"))
+        pokerState = PokerStateDto.from_dict(obj.get("pokerState"))
+        return PlayerMoveAndPokerStateDto(playerMove, pokerState)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["playerMove"] = to_class(PlayerMoveDto, self.playerMove)
+        result["pokerState"] = to_class(PokerStateDto, self.pokerState)
+        return result
+
+
+class PlayerResultDto(BaseModel):
+    name: str
+    handDescription: str
+    cards: List[str]
+    markers: int
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'PlayerResultDto':
+        assert isinstance(obj, dict)
+        name = from_str(obj.get("name"))
+        handDescription = from_str(obj.get("handDescription"))
+        cards = from_list(from_str, obj.get("cards"))
+        markers = from_int(obj.get("markers"))
+        return PlayerResultDto(name, handDescription, cards, markers)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["name"] = from_str(self.name)
+        result["handDescription"] = from_str(self.handDescription)
+        result["cards"] = from_list(from_str, self.cards)
+        result["markers"] = from_int(self.markers)
+        return result
+
+
+class PlayerResultAndPokerStateDto(BaseModel):
+    playerResult: PlayerResultDto
+    pokerState: PokerStateDto
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'PlayerResultAndPokerStateDto':
+        assert isinstance(obj, dict)
+        playerResult = PlayerResultDto.from_dict(obj.get("playerResult"))
+        pokerState = PokerStateDto.from_dict(obj.get("pokerState"))
+        return PlayerResultAndPokerStateDto(playerResult, pokerState)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["playerResult"] = to_class(PlayerResultDto, self.playerResult)
+        result["pokerState"] = to_class(PokerStateDto, self.pokerState)
         return result
 
 
@@ -339,12 +375,28 @@ def PlayerContinueDtotodict(x: PlayerContinueDto) -> Any:
     return to_class(PlayerContinueDto, x)
 
 
+def PlayerMoveAndPokerStateDtofromdict(s: Any) -> PlayerMoveAndPokerStateDto:
+    return PlayerMoveAndPokerStateDto.from_dict(s)
+
+
+def PlayerMoveAndPokerStateDtotodict(x: PlayerMoveAndPokerStateDto) -> Any:
+    return to_class(PlayerMoveAndPokerStateDto, x)
+
+
 def PlayerMoveDtofromdict(s: Any) -> PlayerMoveDto:
     return PlayerMoveDto.from_dict(s)
 
 
 def PlayerMoveDtotodict(x: PlayerMoveDto) -> Any:
     return to_class(PlayerMoveDto, x)
+
+
+def PlayerResultAndPokerStateDtofromdict(s: Any) -> PlayerResultAndPokerStateDto:
+    return PlayerResultAndPokerStateDto.from_dict(s)
+
+
+def PlayerResultAndPokerStateDtotodict(x: PlayerResultAndPokerStateDto) -> Any:
+    return to_class(PlayerResultAndPokerStateDto, x)
 
 
 def PlayerResultDtofromdict(s: Any) -> PlayerResultDto:

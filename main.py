@@ -1,7 +1,9 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from quicktype.server_to_client import PokerStateDto, RequestMoveDto, PlayerMoveDto, PlayerResultDto
+from quicktype.server_to_client import PokerStateDto, PlayerMoveAndPokerStateDto, PlayerResultAndPokerStateDto
+
+import custom_code
 
 app = FastAPI()
 
@@ -15,29 +17,22 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["GET", "POST"],
+    allow_methods=["POST"],
     allow_headers=["*"],
 )
 
-poker_state = None
-
-@app.post("/POKER_STATE")
-def register_poker_state(new_poker_state: PokerStateDto):
-    global poker_state
-    poker_state = new_poker_state
+poker_state_dto = None
 
 @app.post("/PLAYER_MOVE")
-def register_move(player_move_dto: PlayerMoveDto):
-    pass
+def register_move(dto: PlayerMoveAndPokerStateDto):
+    custom_code.register_move(dto.pokerState, dto.playerMove)
+
 
 @app.post("/PLAYER_RESULT")
-def register_result(player_result_dto: PlayerResultDto):
-    pass
+def register_result(dto: PlayerResultAndPokerStateDto):
+    custom_code.register_result(dto.pokerState, dto.playerResult)
 
-@app.get("/REQUEST_MOVE")
-def get_move():
-    global poker_state
-    # implement your own solution
-    you = poker_state.players[poker_state.youIndex]
-    match = poker_state.highestBet - you.bet 
-    return match
+
+@app.post("/REQUEST_MOVE")
+def get_move(poker_state_dto: PokerStateDto):
+    return custom_code.get_move(poker_state_dto)
