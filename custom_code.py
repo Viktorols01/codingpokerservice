@@ -12,9 +12,9 @@ def register_result(poker_state_dto: PokerStateDto, player_result_dto: PlayerRes
     pass
 
 
-def get_move(poker_state: Poker):
+def get_move(poker_state_dto: PokerStateDto):
     # return a move based on state
     # (below is example)
-    you = poker_state.players[poker_state.youIndex]
-    match = poker_state.highestBet - you.bet
+    you = poker_state_dto.players[poker_state_dto.youIndex]
+    match = poker_state_dto.highestBet - you.bet
     return match
