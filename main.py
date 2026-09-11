@@ -1,7 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from generated.rest import PokerStateDto, PlayerMoveAndPokerStateDto, PlayerResultAndPokerStateDto
+from generated.poker_rest import PokerState, PlayerMoveAndPokerState, PlayerResultAndPokerState
 
 import custom_code
 
@@ -21,18 +21,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-poker_state_dto = None
+poker_state = None
 
 @app.post("/PLAYER_MOVE")
-def register_move(dto: PlayerMoveAndPokerStateDto):
-    custom_code.register_move(dto.pokerState, dto.playerMove)
+def register_move(payload: PlayerMoveAndPokerState):
+    custom_code.register_move(payload.poker_state, payload.player_move)
 
 
 @app.post("/PLAYER_RESULT")
-def register_result(dto: PlayerResultAndPokerStateDto):
-    custom_code.register_result(dto.pokerState, dto.playerResult)
+def register_result(payload: PlayerResultAndPokerState):
+    custom_code.register_result(payload.poker_state, payload.player_result)
 
 
 @app.post("/REQUEST_MOVE")
-def get_move(poker_state_dto: PokerStateDto):
-    return custom_code.get_move(poker_state_dto)
+def get_move(poker_state: PokerState):
+    return custom_code.get_move(poker_state)
