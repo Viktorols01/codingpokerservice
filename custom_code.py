@@ -1,4 +1,4 @@
-from generated.server_to_client import PokerStateDto, RequestMoveDto, PlayerMoveDto, PlayerResultDto
+from generated.rest import PokerStateDto, PlayerMoveDto, PlayerResultDto
 
 # Fill the following functions with your own code!
 
