@@ -1,7 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
-from quicktype.server_to_client import PokerStateDto, PlayerMoveAndPokerStateDto, PlayerResultAndPokerStateDto
+from generated.server_to_client import PokerStateDto, PlayerMoveAndPokerStateDto, PlayerResultAndPokerStateDto
 
 import custom_code
 
